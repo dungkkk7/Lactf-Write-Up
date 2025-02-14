@@ -1,0 +1,22 @@
+
+// cipher text của flag 
+const char* target = "l_alcotsft{_tihne__ifnlfaign_igtoyt}";
+
+    // đoạn này biến đổi Chuỗi nhập vào thành "l_alcotsft{_tihne__ifnlfaign_igtoyt} nếu chính sác như này --> ok 
+    // đảo ngược chuỗi lại là ok nửa đàu vị trí chẵn , nửa sau vị trí lẻ 
+    size_t mid = len / 2;
+    for (size_t i = 0; i < mid; i ++) {
+        out[i * 2] = buf[i];
+        out[i * 2 + 1] = buf[i + mid];
+    }
+    out[len] = '\0';
+    printf("Paradoxified: %s\n", out);
+
+  // cmp chuỗi đã biến đổi với ciphertext của flag 
+    if (strcmp(target, out)) {
+        puts("You got the flag wrong >:(");
+    } else {
+        puts("That's the flag! :D");
+    }
+    return 0;
+}

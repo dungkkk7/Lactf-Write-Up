@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+// hàm này check sem kí tự có hợp lệ hay k 
+bool shuanshuan(unsigned int n, unsigned int k) {
+    for (unsigned int i = 0; i < k; i ++) {
+        if (n == 1) {
+            return false;
+        }
+        if (n % 2 == 0) {
+            n /= 2;
+        } else {
+            n = 3 * n + 1;
+        }
+    }
+    return n == 1;
+}
+
+void eigong() {
+    FILE* flagfile = fopen("flag.txt", "rb");
+    if (flagfile == NULL) {
+        puts("Could not open flag.txt");
+        return;
+    }
+    char buf[256];
+    fgets(buf, 256, flagfile);
+    buf[strcspn(buf, "\n")] = '\0';
+    puts(buf);
+}
+
+unsigned int yi[6] = {27, 38, 87, 95, 118, 9};
+
+int main(void) {
+    puts("Welcome to the Tianhuo Research Center.");
+    printf("Please enter your access code: ");
+    fflush(stdout);
+    char buf[16];
+    fgets(buf, 16, stdin); // nhập vào input tối đa 16 kí tự 
+    
+
+   // chỉ kiểm tra 6 kí tự đầu 
+    for (int i = 0; i < 6; i ++) {
+            // chỉ set các kí tự trong ascii nếu k phải cuccs 
+            // và 6 kí tự nhâph vào  phải thỏa mãn 6 lần gọi hàm check với yi[] cho trước
+        if (buf[i] < 0x20 || buf[i] >= 0x7f || !shuanshuan(buf[i], yi[i])) {
+            puts("ACCESS DENIED");
+            return 1;
+        }
+    }
+ // yêu cầu kí tự thứ 7 phải là end của chuỗi 
+    if (buf[6] != '\0' && buf[6] != '\n') {
+        puts("ACCESS DENIED");
+        return 1;
+    }
+// nếu check xong gọi hàm đọc file flag thôi 
+    eigong();
+    return 0;
+}
